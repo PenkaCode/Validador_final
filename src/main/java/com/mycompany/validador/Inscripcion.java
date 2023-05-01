@@ -66,28 +66,40 @@ public class Inscripcion {
     }
 
     public static void inscribirAlumno(Scanner sc) throws SQLException, IOException {
-        //Ingrear numero de legajo
-        
+    //Ingresar numero de legajo
+    int legajo = 0;
+    while (true) {
         System.out.println("Ingrese el número de legajo del alumno:");
-        int legajo = sc.nextInt();
-
-        // Obtener el nombre del alumno correspondiente al legajo ingresado
-        conexion.estableceConexion();
-        Statement stmt = conexion.conectar.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT nombre FROM alumnos WHERE legajo=" + legajo);
-
-        String nombreAlumno = "";
-        if (rs.next()) {
-            nombreAlumno = rs.getString("nombre");
-        } else {
-            System.out.println("El alumno con el legajo ingresado no existe");
-            stmt.close();
-            conexion.cerrarConnection();
-            return;
+        String input = sc.next();
+        try {
+            legajo = Integer.parseInt(input);
+            if (input.length() != 5) {
+                System.out.println("El número de legajo debe tener 5 dígitos");
+                continue;
+            }
+            break;
+        } catch (NumberFormatException e) {
+            System.out.println("El número de legajo debe ser numérico");
         }
+    }
+
+    // Obtener el nombre del alumno correspondiente al legajo ingresado
+    conexion.estableceConexion();
+    Statement stmt = conexion.conectar.createStatement();
+    ResultSet rs = stmt.executeQuery("SELECT nombre FROM alumnos WHERE legajo=" + legajo);
+
+    String nombreAlumno = "";
+    if (rs.next()) {
+        nombreAlumno = rs.getString("nombre");
+    } else {
+        System.out.println("El alumno con el legajo ingresado no existe");
         stmt.close();
         conexion.cerrarConnection();
-        
+        return;
+    }
+    stmt.close();
+    conexion.cerrarConnection();
+
         //Ingresar materia a inscribirse
         
         System.out.println("Ingrese el nombre de la materia a la que desea inscribir al alumno:");

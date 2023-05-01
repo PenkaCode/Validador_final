@@ -12,6 +12,7 @@ import java.util.Scanner;
  *
  * @author neo_0
  */
+// Subido a GitHUB https://github.com/PenkaCode/Validador_final.git
 public class Validador {
 
     private static Scanner sc = new Scanner(System.in).useDelimiter("\n");
